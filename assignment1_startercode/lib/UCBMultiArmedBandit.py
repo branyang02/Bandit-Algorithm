@@ -7,16 +7,10 @@ class UpperConfidenceBoundStruct:
 
         self.UserArmMean = np.zeros(self.d)
         self.UserArmTrials = np.zeros(self.d)
-        self.UCBEquationValue = np.zeros(self.d)
-
         self.time = 0
 
     def updateParameters(self, articlePicked_id, click):
-
         self.UserArmMean[articlePicked_id] = (self.UserArmMean[articlePicked_id]*self.UserArmTrials[articlePicked_id] + click) / (self.UserArmTrials[articlePicked_id]+1)
-        #compute values following UCB Equation
-        self.UCBEquationValue[articlePicked_id] = self.UserArmMean[articlePicked_id] + np.sqrt((2 * np.log(self.time)) / self.UserArmTrials[articlePicked_id])
-        
         self.UserArmTrials[articlePicked_id] += 1
 
         self.time += 1
@@ -30,17 +24,15 @@ class UpperConfidenceBoundStruct:
         articlePicked = None
 
         for article in pool_articles:
-            article_value = self.UCBEquationValue[article.id]
-
-            # play all the arms once
-            if np.isnan(article_value):
-                article_value = np.inf
-            if article_value == 0:
-                articlePicked = article
-
-            elif maxValue < article_value:
+            article_value = self.UserArmMean[article.id] + np.sqrt((2 * np.log(self.time)) / self.UserArmTrials[article.id])
+            
+            if maxValue < article_value:
                 articlePicked = article
                 maxValue = article_value
+            
+            # pick random if doesn't satisfy the statement above
+            if articlePicked == None:
+                articlePicked = np.random.choice(pool_articles)
 
         return articlePicked
 

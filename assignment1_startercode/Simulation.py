@@ -222,8 +222,8 @@ if __name__ == '__main__':
 	## Initiate Bandit Algorithms ##
 	algorithms = {}
 
-	algorithms['EpsilonGreedyLinearBandit'] = EpsilonGreedyLinearBandit(dimension=context_dimension, lambda_=0.1, epsilon=None)
-	algorithms['UpperConfidenceBoundLinearBandit'] = UpperConfidenceBoundLinearBandit(dimension=context_dimension, lambda_=0.1, alpha=0.2)
+	#algorithms['EpsilonGreedyLinearBandit'] = EpsilonGreedyLinearBandit(dimension=context_dimension, lambda_=0.1, epsilon=None)
+	#algorithms['UpperConfidenceBoundLinearBandit'] = UpperConfidenceBoundLinearBandit(dimension=context_dimension, lambda_=0.1, alpha=0.2)
 	
 	algorithms['EpsilonGreedyMultiArmedBandit'] = EpsilonGreedyMultiArmedBandit(num_arm=n_articles, epsilon=None)
 	algorithms['UpperConfidenceBoundMultiArmedBandit'] = UpperConfidenceBoundMultiArmedBandit(num_arm=n_articles)
