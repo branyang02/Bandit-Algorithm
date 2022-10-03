@@ -1,0 +1,2 @@
+Time(Iteration),EpsilonGreedyMultiArmedBandit,UpperConfidenceBoundMultiArmedBandit,ThompsonSamplingMultiArmedBandit
+0,0.6466652283113279,0.45988031259035145,0.6550835645106892

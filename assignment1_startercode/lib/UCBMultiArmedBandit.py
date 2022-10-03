@@ -1,5 +1,5 @@
-from multiprocessing import pool
 import numpy as np
+
 
 class UpperConfidenceBoundStruct:
     def __init__(self, num_arm):
@@ -12,6 +12,7 @@ class UpperConfidenceBoundStruct:
         self.time = 0
 
     def updateParameters(self, articlePicked_id, click):
+
         self.UserArmMean[articlePicked_id] = (self.UserArmMean[articlePicked_id]*self.UserArmTrials[articlePicked_id] + click) / (self.UserArmTrials[articlePicked_id]+1)
         #compute values following UCB Equation
         self.UCBEquationValue[articlePicked_id] = self.UserArmMean[articlePicked_id] + np.sqrt((2 * np.log(self.time)) / self.UserArmTrials[articlePicked_id])
@@ -21,7 +22,7 @@ class UpperConfidenceBoundStruct:
         self.time += 1
 
     def getTheta(self):
-        return self.UCBEquationValue
+        return self.UserArmMean
     
     def decide(self, pool_articles):
 
@@ -31,7 +32,13 @@ class UpperConfidenceBoundStruct:
         for article in pool_articles:
             article_value = self.UCBEquationValue[article.id]
 
-            if maxValue < article_value:
+            # play all the arms once
+            if np.isnan(article_value):
+                article_value = np.inf
+            if article_value == 0:
+                articlePicked = article
+
+            elif maxValue < article_value:
                 articlePicked = article
                 maxValue = article_value
 
@@ -54,4 +61,4 @@ class UpperConfidenceBoundMultiArmedBandit:
         self.users[userID].updateParameters(articlePicked.id, click)
 
     def getTheta(self, userID):
-        return self.users[userID].UCBEquationValue
+        return self.users[userID].UserArmMean

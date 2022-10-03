@@ -43,7 +43,6 @@ class EpsilonGreedyStruct:
                 if maxPTA < article_pta:
                     articlePicked = article
                     maxPTA = article_pta
-
         return articlePicked
 
 class EpsilonGreedyLinearBandit:
