@@ -198,10 +198,10 @@ if __name__ == '__main__':
 	else:
 		actionset = "basis_vector"  # "basis_vector" or "random"
 
-	testing_iterations = 3000 # original 200_000
+	testing_iterations = 20_000 # original 200_000
 	NoiseScale = 0.1  # standard deviation of Gaussian noise
 	n_articles = 25
-	n_users = 5
+	n_users = 10
 	poolArticleSize = None
 
 	if actionset == "basis_vector":
@@ -226,9 +226,9 @@ if __name__ == '__main__':
 	## Initiate Bandit Algorithms ##
 	algorithms = {}
 
-	# algorithms['EpsilonGreedyLinearBandit'] = EpsilonGreedyLinearBandit(dimension=context_dimension, lambda_=0.1, epsilon=None)
-	# algorithms['UpperConfidenceBoundLinearBandit'] = UpperConfidenceBoundLinearBandit(dimension=context_dimension, lambda_=0.1, alpha=0.2)
-	# algorithms['ThompsonSamplingLinearBandit'] = ThompsonSamplingLinearBandit(dimension=context_dimension, T=testing_iterations, delta=0.5, R=0.01)
+	algorithms['EpsilonGreedyLinearBandit'] = EpsilonGreedyLinearBandit(dimension=context_dimension, lambda_=0.1, epsilon=None)
+	algorithms['UpperConfidenceBoundLinearBandit'] = UpperConfidenceBoundLinearBandit(dimension=context_dimension, lambda_=0.1, alpha=0.2)
+	algorithms['ThompsonSamplingLinearBandit'] = ThompsonSamplingLinearBandit(dimension=context_dimension, T=testing_iterations, delta=0.5, R=0.01)
 
 	algorithms['EpsilonGreedyMultiArmedBandit'] = EpsilonGreedyMultiArmedBandit(num_arm=n_articles, epsilon=None)
 	algorithms['UpperConfidenceBoundMultiArmedBandit'] = UpperConfidenceBoundMultiArmedBandit(num_arm=n_articles)

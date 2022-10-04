@@ -12,6 +12,7 @@ class UpperConfidenceBoundStruct:
         self.AInv = np.linalg.inv(self.A)
         self.UserTheta = np.zeros(self.d)
 
+        self.play_dict = {}
         self.time = 0
 
         #self.list = [0,0,0]
@@ -39,16 +40,18 @@ class UpperConfidenceBoundStruct:
         articlePicked = None
 
         for article in pool_articles:
-            article_pta = np.dot(self.UserTheta, article.featureVector) + (self.alpha * np.sqrt(np.dot(np.dot(np.transpose(article.featureVector), self.AInv), article.featureVector)))
-
-            if maxPTA < article_pta:
+            # play all the arms once first
+            if article not in self.play_dict:
                 articlePicked = article
-                maxPTA = article_pta
-        #print(pool_articles.index(articlePicked))
-        # list = [0,0,0]
-        # self.list[pool_articles.index(articlePicked)] += 1
-        # print(self.list)
-        #exit() if self.time == 4 else print(self.list)
+                self.play_dict[article] = 1
+                break
+            else:
+                article_pta = np.dot(self.UserTheta, article.featureVector) + (self.alpha * np.sqrt(np.dot(np.dot(np.transpose(article.featureVector), self.AInv), article.featureVector)))
+
+                if maxPTA < article_pta:
+                    articlePicked = article
+                    maxPTA = article_pta
+
         return articlePicked
 
 class UpperConfidenceBoundLinearBandit:

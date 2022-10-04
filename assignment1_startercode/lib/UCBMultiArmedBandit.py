@@ -8,6 +8,7 @@ class UpperConfidenceBoundStruct:
         self.UserArmMean = np.zeros(self.d)
         self.UserArmTrials = np.zeros(self.d)
         self.time = 0
+        self.play_dict = {}
 
     def updateParameters(self, articlePicked_id, click):
         self.UserArmMean[articlePicked_id] = (self.UserArmMean[articlePicked_id]*self.UserArmTrials[articlePicked_id] + click) / (self.UserArmTrials[articlePicked_id]+1)
@@ -19,20 +20,27 @@ class UpperConfidenceBoundStruct:
         return self.UserArmMean
     
     def decide(self, pool_articles):
+        #print(self.UserArmTrials)
 
         maxValue = float('-inf')
         articlePicked = None
 
         for article in pool_articles:
-            article_value = self.UserArmMean[article.id] + np.sqrt((2 * np.log(self.time)) / self.UserArmTrials[article.id])
-            
-            if maxValue < article_value:
+            # play all the arms once first
+            if article not in self.play_dict:
                 articlePicked = article
-                maxValue = article_value
-            
-            # pick random if doesn't satisfy the statement above
-            if articlePicked == None:
-                articlePicked = np.random.choice(pool_articles)
+                self.play_dict[article] = 1
+                break
+            else:
+                article_value = self.UserArmMean[article.id] + np.sqrt((2 * np.log(self.time)) / self.UserArmTrials[article.id])
+                
+                if maxValue < article_value:
+                    articlePicked = article
+                    maxValue = article_value
+                
+                # pick random if doesn't satisfy the statement above
+                if articlePicked == None:
+                    articlePicked = np.random.choice(pool_articles)
 
         return articlePicked
 
