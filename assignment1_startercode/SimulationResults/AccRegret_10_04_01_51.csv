@@ -1,0 +1,3 @@
+Time(Iteration),EpsilonGreedyLinearBandit,UpperConfidenceBoundLinearBandit
+0,1.2785137491255245,1.2785137491255245
+1,1.2785137491255245,1.3365980427404858

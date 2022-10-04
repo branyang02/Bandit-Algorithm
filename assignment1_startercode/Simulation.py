@@ -1,4 +1,5 @@
 import copy
+from multiprocessing import context
 import re
 import numpy as np
 from random import sample, shuffle
@@ -12,9 +13,12 @@ from util_functions import featureUniform, gaussianFeature
 from Articles import ArticleManager
 from Users import UserManager
 
+# Linear Bandit Algorithms
 from lib.EpsilonGreedyLinearBandit import EpsilonGreedyLinearBandit
 from lib.UCBLinearBandit import UpperConfidenceBoundLinearBandit
+from lib.ThompsonSamplingLinearBandit import ThompsonSamplingLinearBandit
 
+# Multi Armed Bandit Algorithms
 from lib.EpsilonGreedyMultiArmedBandit import EpsilonGreedyMultiArmedBandit
 from lib.UCBMultiArmedBandit import UpperConfidenceBoundMultiArmedBandit
 from lib.ThompsonSamplingMultiArmedBandit import ThompsonSamplingMultiArmedBandit
@@ -194,10 +198,10 @@ if __name__ == '__main__':
 	else:
 		actionset = "basis_vector"  # "basis_vector" or "random"
 
-	testing_iterations = 500_0 # original 200_000
+	testing_iterations = 3000 # original 200_000
 	NoiseScale = 0.1  # standard deviation of Gaussian noise
 	n_articles = 25
-	n_users = 10
+	n_users = 5
 	poolArticleSize = None
 
 	if actionset == "basis_vector":
@@ -222,9 +226,10 @@ if __name__ == '__main__':
 	## Initiate Bandit Algorithms ##
 	algorithms = {}
 
-	#algorithms['EpsilonGreedyLinearBandit'] = EpsilonGreedyLinearBandit(dimension=context_dimension, lambda_=0.1, epsilon=None)
-	#algorithms['UpperConfidenceBoundLinearBandit'] = UpperConfidenceBoundLinearBandit(dimension=context_dimension, lambda_=0.1, alpha=0.2)
-	
+	# algorithms['EpsilonGreedyLinearBandit'] = EpsilonGreedyLinearBandit(dimension=context_dimension, lambda_=0.1, epsilon=None)
+	# algorithms['UpperConfidenceBoundLinearBandit'] = UpperConfidenceBoundLinearBandit(dimension=context_dimension, lambda_=0.1, alpha=0.2)
+	# algorithms['ThompsonSamplingLinearBandit'] = ThompsonSamplingLinearBandit(dimension=context_dimension, T=testing_iterations, delta=0.5, R=0.01)
+
 	algorithms['EpsilonGreedyMultiArmedBandit'] = EpsilonGreedyMultiArmedBandit(num_arm=n_articles, epsilon=None)
 	algorithms['UpperConfidenceBoundMultiArmedBandit'] = UpperConfidenceBoundMultiArmedBandit(num_arm=n_articles)
 	algorithms['ThompsonSamplingMultiArmedBandit'] = ThompsonSamplingMultiArmedBandit(num_arm=n_articles)

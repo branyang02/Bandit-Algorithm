@@ -1,5 +1,3 @@
-from curses.ascii import US
-import re
 import numpy as np
 
 class ThompsonSamplingStruct:

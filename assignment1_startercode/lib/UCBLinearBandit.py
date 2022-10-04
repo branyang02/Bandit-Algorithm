@@ -14,6 +14,8 @@ class UpperConfidenceBoundStruct:
 
         self.time = 0
 
+        #self.list = [0,0,0]
+
     def updateParameters(self, articlePicked_FeatureVector, click):
         # expected value(r_a_t) = E[r(t,a)|x(t|a)]
         self.A += np.outer(articlePicked_FeatureVector, articlePicked_FeatureVector)
@@ -42,6 +44,11 @@ class UpperConfidenceBoundStruct:
             if maxPTA < article_pta:
                 articlePicked = article
                 maxPTA = article_pta
+        #print(pool_articles.index(articlePicked))
+        # list = [0,0,0]
+        # self.list[pool_articles.index(articlePicked)] += 1
+        # print(self.list)
+        #exit() if self.time == 4 else print(self.list)
         return articlePicked
 
 class UpperConfidenceBoundLinearBandit:
