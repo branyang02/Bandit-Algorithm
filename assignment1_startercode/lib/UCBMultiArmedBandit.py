@@ -20,11 +20,8 @@ class UpperConfidenceBoundStruct:
         return self.UserArmMean
     
     def decide(self, pool_articles):
-        #print(self.UserArmTrials)
-
         maxValue = float('-inf')
         articlePicked = None
-
         for article in pool_articles:
             # play all the arms once first
             if article not in self.play_dict:
@@ -33,15 +30,12 @@ class UpperConfidenceBoundStruct:
                 break
             else:
                 article_value = self.UserArmMean[article.id] + np.sqrt((2 * np.log(self.time)) / self.UserArmTrials[article.id])
-                
                 if maxValue < article_value:
                     articlePicked = article
                     maxValue = article_value
-                
                 # pick random if doesn't satisfy the statement above
                 if articlePicked == None:
                     articlePicked = np.random.choice(pool_articles)
-
         return articlePicked
 
 class UpperConfidenceBoundMultiArmedBandit:

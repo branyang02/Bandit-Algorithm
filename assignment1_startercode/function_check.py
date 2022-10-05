@@ -1,6 +1,6 @@
 import numpy as np
 
-class ThompsonSamplingStruct:
+class ThompsonSamplingStructdfdfdf:
     
     def __init__(self, num_arm): 
         self.d = num_arm
@@ -47,7 +47,7 @@ class ThompsonSamplingStruct:
         articlePicked = max(value_dict, key=value_dict.get)
         return articlePicked
 
-class ThompsonSamplingMultiArmedBandit:
+class ThompsonSamplingMultiArmedBandithehehehehh:
     def __init__(self, num_arm):
         self.users = {}
         self.num_arm = num_arm
@@ -55,7 +55,7 @@ class ThompsonSamplingMultiArmedBandit:
 
     def decide(self, pool_articles, userID):
         if userID not in self.users:
-            self.users[userID] = ThompsonSamplingStruct(self.num_arm)
+            self.users[userID] = ThompsonSamplingStructdfdfdf(self.num_arm)
         
         return self.users[userID].decide(pool_articles)
     

@@ -1,6 +1,7 @@
 import copy
 from multiprocessing import context
 import re
+from tkinter import N
 import numpy as np
 from random import sample, shuffle
 import datetime
@@ -22,6 +23,7 @@ from lib.ThompsonSamplingLinearBandit import ThompsonSamplingLinearBandit
 from lib.EpsilonGreedyMultiArmedBandit import EpsilonGreedyMultiArmedBandit
 from lib.UCBMultiArmedBandit import UpperConfidenceBoundMultiArmedBandit
 from lib.ThompsonSamplingMultiArmedBandit import ThompsonSamplingMultiArmedBandit
+from function_check import ThompsonSamplingMultiArmedBandithehehehehh
 
 class simulateOnlineData(object):
 	def __init__(self, context_dimension, testing_iterations, plot, articles,
@@ -198,7 +200,7 @@ if __name__ == '__main__':
 	else:
 		actionset = "basis_vector"  # "basis_vector" or "random"
 
-	testing_iterations = 20_000 # original 200_000
+	testing_iterations = 5_000 # original 200_000
 	NoiseScale = 0.1  # standard deviation of Gaussian noise
 	n_articles = 25
 	n_users = 10
@@ -230,9 +232,10 @@ if __name__ == '__main__':
 	algorithms['UpperConfidenceBoundLinearBandit'] = UpperConfidenceBoundLinearBandit(dimension=context_dimension, lambda_=0.1, alpha=0.2)
 	algorithms['ThompsonSamplingLinearBandit'] = ThompsonSamplingLinearBandit(dimension=context_dimension, T=testing_iterations, delta=0.5, R=0.01)
 
-	algorithms['EpsilonGreedyMultiArmedBandit'] = EpsilonGreedyMultiArmedBandit(num_arm=n_articles, epsilon=None)
-	algorithms['UpperConfidenceBoundMultiArmedBandit'] = UpperConfidenceBoundMultiArmedBandit(num_arm=n_articles)
-	algorithms['ThompsonSamplingMultiArmedBandit'] = ThompsonSamplingMultiArmedBandit(num_arm=n_articles)
+	#algorithms['EpsilonGreedyMultiArmedBandit'] = EpsilonGreedyMultiArmedBandit(num_arm=n_articles, epsilon=None)
+	#algorithms['UpperConfidenceBoundMultiArmedBandit'] = UpperConfidenceBoundMultiArmedBandit(num_arm=n_articles)
+	#algorithms['ThompsonSamplingMultiArmedBandit'] = ThompsonSamplingMultiArmedBandit(num_arm=n_articles)
+	#algorithms["NEWTS"] = ThompsonSamplingMultiArmedBandithehehehehh(num_arm=n_articles)
 
 	## Run Simulation ##
 	print("Starting for ", simExperiment.simulation_signature)
