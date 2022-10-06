@@ -18,12 +18,13 @@ from Users import UserManager
 from lib.EpsilonGreedyLinearBandit import EpsilonGreedyLinearBandit
 from lib.UCBLinearBandit import UpperConfidenceBoundLinearBandit
 from lib.ThompsonSamplingLinearBandit import ThompsonSamplingLinearBandit
+from lib.PHELinearBandit import PHELinearBandit
 
 # Multi Armed Bandit Algorithms
 from lib.EpsilonGreedyMultiArmedBandit import EpsilonGreedyMultiArmedBandit
 from lib.UCBMultiArmedBandit import UpperConfidenceBoundMultiArmedBandit
 from lib.ThompsonSamplingMultiArmedBandit import ThompsonSamplingMultiArmedBandit
-from function_check import ThompsonSamplingMultiArmedBandithehehehehh
+from lib.PHEMultiArmedBandit import PHEMultiArmedBandit
 
 class simulateOnlineData(object):
 	def __init__(self, context_dimension, testing_iterations, plot, articles,
@@ -228,14 +229,15 @@ if __name__ == '__main__':
 	## Initiate Bandit Algorithms ##
 	algorithms = {}
 
-	algorithms['EpsilonGreedyLinearBandit'] = EpsilonGreedyLinearBandit(dimension=context_dimension, lambda_=0.1, epsilon=None)
-	algorithms['UpperConfidenceBoundLinearBandit'] = UpperConfidenceBoundLinearBandit(dimension=context_dimension, lambda_=0.1, alpha=0.2)
-	algorithms['ThompsonSamplingLinearBandit'] = ThompsonSamplingLinearBandit(dimension=context_dimension, T=testing_iterations, delta=0.5, R=0.01)
+	# algorithms['EpsilonGreedyLinearBandit'] = EpsilonGreedyLinearBandit(dimension=context_dimension, lambda_=0.1, epsilon=None)
+	# algorithms['UpperConfidenceBoundLinearBandit'] = UpperConfidenceBoundLinearBandit(dimension=context_dimension, lambda_=0.1, alpha=0.25)
+	# algorithms['ThompsonSamplingLinearBandit'] = ThompsonSamplingLinearBandit(dimension=context_dimension, lambda_=0.1, sigma=NoiseScale)
+	# algorithms['PHELinearBandit'] = PHELinearBandit(dimension=context_dimension, lambda_=0.1, a=0.5)
 
-	#algorithms['EpsilonGreedyMultiArmedBandit'] = EpsilonGreedyMultiArmedBandit(num_arm=n_articles, epsilon=None)
-	#algorithms['UpperConfidenceBoundMultiArmedBandit'] = UpperConfidenceBoundMultiArmedBandit(num_arm=n_articles)
-	#algorithms['ThompsonSamplingMultiArmedBandit'] = ThompsonSamplingMultiArmedBandit(num_arm=n_articles)
-	#algorithms["NEWTS"] = ThompsonSamplingMultiArmedBandithehehehehh(num_arm=n_articles)
+	algorithms['EpsilonGreedyMultiArmedBandit'] = EpsilonGreedyMultiArmedBandit(num_arm=n_articles, epsilon=None)
+	algorithms['UpperConfidenceBoundMultiArmedBandit'] = UpperConfidenceBoundMultiArmedBandit(num_arm=n_articles, alpha=0.25)
+	algorithms['ThompsonSamplingMultiArmedBandit'] = ThompsonSamplingMultiArmedBandit(num_arm=n_articles)
+	algorithms['PHEMultiArmedBandit'] = PHEMultiArmedBandit(num_arm=n_articles, a=0.5)
 
 	## Run Simulation ##
 	print("Starting for ", simExperiment.simulation_signature)

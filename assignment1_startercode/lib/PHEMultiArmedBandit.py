@@ -1,58 +1,66 @@
+from math import ceil
 import numpy as np
 
+class PerturbedHistoryExplorationStruct:
 
-class UpperConfidenceBoundStruct:
-    def __init__(self, num_arm, alpha):
+    def __init__(self, num_arm, a):
         self.d = num_arm
-        self.alpha = alpha
-
+        self.a = a
+        
         self.UserArmMean = np.zeros(self.d)
         self.UserArmTrials = np.zeros(self.d)
+
+        self.T = np.zeros(self.d) # number of times arm is pulled
+        self.V = np.zeros(self.d)
+        
+
         self.time = 0
-        self.play_dict = {}
 
     def updateParameters(self, articlePicked_id, click):
         self.UserArmMean[articlePicked_id] = (self.UserArmMean[articlePicked_id]*self.UserArmTrials[articlePicked_id] + click) / (self.UserArmTrials[articlePicked_id]+1)
         self.UserArmTrials[articlePicked_id] += 1
 
-        self.time += 1
+        self.T[articlePicked_id] += 1
+        self.V[articlePicked_id] += click
 
+        self.time += 1
+    
     def getTheta(self):
         return self.UserArmMean
     
     def decide(self, pool_articles):
-        maxValue = float('-inf')
+
+        maxPTA = float('-inf')
         articlePicked = None
+
         for article in pool_articles:
-            # play all the arms once first
-            if article not in self.play_dict:
-                articlePicked = article
-                self.play_dict[article] = 1
-                break
+            s = self.UserArmTrials[article.id]
+            if self.T[article.id] > 0:
+                U = np.random.binomial(ceil(self.a * s), 0.5)
+                mu = (self.V[article.id] + U) / ((self.a + 1) * s)
             else:
-                article_value = self.UserArmMean[article.id] + (self.alpha * np.sqrt((2 * np.log(self.time)) / self.UserArmTrials[article.id]))
-                if maxValue < article_value:
-                    articlePicked = article
-                    maxValue = article_value
-                # pick random if doesn't satisfy the statement above
-                if articlePicked == None:
-                    articlePicked = np.random.choice(pool_articles)
+                mu = np.inf
+
+            article_pta = mu
+            if maxPTA < article_pta:
+                articlePicked = article
+                maxPTA = article_pta
+
         return articlePicked
 
-class UpperConfidenceBoundMultiArmedBandit:
-    def __init__(self, num_arm, alpha):
+class PHEMultiArmedBandit:
+    def __init__(self, num_arm, a):
         self.users = {}
         self.num_arm = num_arm
-        self.alpha = alpha
+        self.a = a
         self.CanEstimateUserPreference = False
 
     def decide(self, pool_articles, userID):
         if userID not in self.users:
-            self.users[userID] = UpperConfidenceBoundStruct(self.num_arm, self.alpha)
-        
-        # call decide method
+            self.users[userID] = PerturbedHistoryExplorationStruct(self.num_arm, self.a)
+
         return self.users[userID].decide(pool_articles)
-    
+
     def updateParameters(self, articlePicked, click, userID):
         self.users[userID].updateParameters(articlePicked.id, click)
 

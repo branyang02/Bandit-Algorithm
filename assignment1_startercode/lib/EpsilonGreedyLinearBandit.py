@@ -16,6 +16,8 @@ class EpsilonGreedyStruct:
         self.b += articlePicked_FeatureVector * click
         self.AInv = np.linalg.inv(self.A)
         self.UserTheta = np.dot(self.AInv, self.b)
+        # print(self.UserTheta)
+        # exit()
         self.time += 1
 
     def getTheta(self):
