@@ -201,7 +201,7 @@ if __name__ == '__main__':
 	else:
 		actionset = "basis_vector"  # "basis_vector" or "random"
 
-	testing_iterations = 5_000 # original 200_000
+	testing_iterations = 10_000 # original 200_000
 	NoiseScale = 0.1  # standard deviation of Gaussian noise
 	n_articles = 25
 	n_users = 10
