@@ -24,7 +24,6 @@ class UpperConfidenceBoundStruct:
         self.AInv = np.linalg.inv(self.A)
         self.UserTheta = np.dot(self.AInv, self.b)
 
-        # self.UCBEquationValue = self.UserTheta + self.alpha * np.sqrt()
 
         self.time += 1
 

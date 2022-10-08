@@ -1,3 +1,4 @@
+from configparser import NoSectionError
 import copy
 from multiprocessing import context
 import re
@@ -19,12 +20,14 @@ from lib.EpsilonGreedyLinearBandit import EpsilonGreedyLinearBandit
 from lib.UCBLinearBandit import UpperConfidenceBoundLinearBandit
 from lib.ThompsonSamplingLinearBandit import ThompsonSamplingLinearBandit
 from lib.PHELinearBandit import PHELinearBandit
+from function_check import HEHEHEHEHE
 
 # Multi Armed Bandit Algorithms
 from lib.EpsilonGreedyMultiArmedBandit import EpsilonGreedyMultiArmedBandit
 from lib.UCBMultiArmedBandit import UpperConfidenceBoundMultiArmedBandit
 from lib.ThompsonSamplingMultiArmedBandit import ThompsonSamplingMultiArmedBandit
 from lib.PHEMultiArmedBandit import PHEMultiArmedBandit
+#from function_check import ThmopsonCheck
 
 class simulateOnlineData(object):
 	def __init__(self, context_dimension, testing_iterations, plot, articles,
@@ -188,6 +191,10 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description = '')
 	parser.add_argument('--contextdim', type=int, help='Set dimension of context features.')
 	parser.add_argument('--actionset', type=str, help='Set dimension of context features.')
+	parser.add_argument('--noisescale', type=float, help='Set Gaussian noise scale')
+	parser.add_argument('--articles', type=int, help='Set number of arms')
+	parser.add_argument('--poolArticleSize', type=int, help='Set number of arms')
+
 	args = parser.parse_args()
 
 	## Environment Settings ##
@@ -201,11 +208,14 @@ if __name__ == '__main__':
 	else:
 		actionset = "basis_vector"  # "basis_vector" or "random"
 
-	testing_iterations = 10_000 # original 200_000
+	testing_iterations = 15_000 # original 200_000
 	NoiseScale = 0.1  # standard deviation of Gaussian noise
-	n_articles = 25
+	n_articles = 100
 	n_users = 10
-	poolArticleSize = None
+	if args.poolArticleSize:
+		poolArticleSize = args.poolArticleSize
+	else:
+		poolArticleSize = None
 
 	if actionset == "basis_vector":
 		n_articles = context_dimension  # there can be at most context_dimension number of basis vectors
@@ -229,15 +239,17 @@ if __name__ == '__main__':
 	## Initiate Bandit Algorithms ##
 	algorithms = {}
 
-	# algorithms['EpsilonGreedyLinearBandit'] = EpsilonGreedyLinearBandit(dimension=context_dimension, lambda_=0.1, epsilon=None)
-	# algorithms['UpperConfidenceBoundLinearBandit'] = UpperConfidenceBoundLinearBandit(dimension=context_dimension, lambda_=0.1, alpha=0.25)
-	# algorithms['ThompsonSamplingLinearBandit'] = ThompsonSamplingLinearBandit(dimension=context_dimension, lambda_=0.1, sigma=NoiseScale)
+	algorithms['EpsilonGreedyLinearBandit'] = EpsilonGreedyLinearBandit(dimension=context_dimension, lambda_=0.1, epsilon=None)
+	algorithms['UpperConfidenceBoundLinearBandit'] = UpperConfidenceBoundLinearBandit(dimension=context_dimension, lambda_=0.1, alpha=0.25)
+	algorithms['ThompsonSamplingLinearBandit'] = ThompsonSamplingLinearBandit(dimension=context_dimension, lambda_=0.1, sigma=NoiseScale)
 	# algorithms['PHELinearBandit'] = PHELinearBandit(dimension=context_dimension, lambda_=0.1, a=0.5)
+	# algorithms["HEHEHEHHE"] = HEHEHEHEHE(dimension=context_dimension, lambda_=0.1)
 
 	algorithms['EpsilonGreedyMultiArmedBandit'] = EpsilonGreedyMultiArmedBandit(num_arm=n_articles, epsilon=None)
 	algorithms['UpperConfidenceBoundMultiArmedBandit'] = UpperConfidenceBoundMultiArmedBandit(num_arm=n_articles, alpha=0.25)
 	algorithms['ThompsonSamplingMultiArmedBandit'] = ThompsonSamplingMultiArmedBandit(num_arm=n_articles)
 	algorithms['PHEMultiArmedBandit'] = PHEMultiArmedBandit(num_arm=n_articles, a=0.5)
+	# algorithms['thompson check'] = ThmopsonCheck(num_arm=n_articles)
 
 	## Run Simulation ##
 	print("Starting for ", simExperiment.simulation_signature)

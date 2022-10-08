@@ -8,7 +8,7 @@ class EpsilonGreedyStruct:
         self.epsilon = epsilon
         self.b = np.zeros(self.d)
         self.AInv = np.linalg.inv(self.A)
-        self.UserTheta = np.zeros(self.d)
+
         self.time = 0
 
     def updateParameters(self, articlePicked_FeatureVector, click):
@@ -16,8 +16,6 @@ class EpsilonGreedyStruct:
         self.b += articlePicked_FeatureVector * click
         self.AInv = np.linalg.inv(self.A)
         self.UserTheta = np.dot(self.AInv, self.b)
-        # print(self.UserTheta)
-        # exit()
         self.time += 1
 
     def getTheta(self):
