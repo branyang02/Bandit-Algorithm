@@ -1,6 +1,6 @@
 # Bandit-Algorithm
 
-This repo contains both multi-armed bandit algorithms and linear contextual bandit algorithms.
+This repo contains both multi-armed bandit algorithms and linear contextual bandit algorithms. 
 
 The following algorithms are implemented:
 * Multi-Armed Bandit Algorithms:
